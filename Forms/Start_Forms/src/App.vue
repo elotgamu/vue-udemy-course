@@ -70,13 +70,13 @@
                         <input
                                 type="radio"
                                 id="male"
-                                value="Male"> Male
+                                value="Male" v-model="userData.gender"> Male
                     </label>
                     <label for="female">
                         <input
                                 type="radio"
                                 id="female"
-                                value="Female"> Female
+                                value="Female" v-model="userData.gender"> Female
                     </label>
                 </div>
             </div>
@@ -85,22 +85,28 @@
                     <label for="priority">Priority</label>
                     <select
                             id="priority"
-                            class="form-control">
-                        <option></option>
+                            class="form-control" v-model="complaintPriority">
+                        <option v-for="(priority, index) in priorities" :key="index" :selected="priority == 'Low'">{{ priority }}</option>
                     </select>
                 </div>
             </div>
+
+            <!-- switch component section -->
+            <div class="row">
+              <div class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3">
+                <SwitchComponent v-model="switchData"></SwitchComponent>
+              </div>
+            </div>
+            <!-- Switch component -->
             <hr>
             <div class="row">
                 <div class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3">
-                    <button
-                            class="btn btn-primary">Submit!
-                    </button>
+                    <button class="btn btn-primary" v-on:click.prevent="submit()">Submit!</button>
                 </div>
             </div>
         </form>
         <hr>
-        <div class="row">
+        <div class="row" v-if="submitted">
             <div class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3">
                 <div class="panel panel-default">
                     <div class="panel-heading">
@@ -115,9 +121,9 @@
                         <ul>
                             <li v-for="(item, index) in sendMail" :key="index">{{ item }}</li>
                         </ul>
-                        <p>Gender:</p>
-                        <p>Priority:</p>
-                        <p>Switched:</p>
+                        <p>Gender: {{ userData.gender }}</p>
+                        <p>Priority: {{ complaintPriority }}</p>
+                        <p>Switched: {{ switchData }}</p>
                     </div>
                 </div>
             </div>
@@ -126,16 +132,32 @@
 </template>
 
 <script>
+
+import Switch from './components/Switch.vue';
+
 export default {
+  components: {
+    SwitchComponent: Switch
+  },
   data: () => ({
     userData: {
       email: '',
       password: '',
-      age: 24
+      age: 24,
+      gender: 'Male'
     },
     message: '',
-    sendMail: []
-  })
+    sendMail: [],
+    priorities: ['Low', 'Medium', 'High',],
+    complaintPriority: '',
+    switchData: true,
+    submitted: false
+  }),
+  methods: {
+      submit() {
+          this.submitted = true
+      }
+  },
 }
 </script>
 
