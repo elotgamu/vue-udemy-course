@@ -13,4 +13,22 @@
 </template>
 
 <script>
+  export default  {
+    data() {
+      return {
+        link: {
+          name: '',
+          params: {
+            id: this.$route.params.id
+          },
+          query: {
+            locale: 'en',
+            q: 100
+          },
+          hash: '#data'
+        }
+      }
+    },
+  }
+  
 </script>

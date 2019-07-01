@@ -16,7 +16,15 @@ const routes = [
     children: [
       { path: "", component: UserStart },
       { path: ":id", component: UserDetail },
-      { path: ":id/edit", component: UserEdit, name: "userEdit" }
+      {
+        path: ":id/edit",
+        component: UserEdit,
+        name: "userEdit",
+        beforeEnter: (to, from, next) => {
+          console.log("Inside router setup");
+          next();
+        }
+      }
     ]
   },
   { path: "*", redirect: { name: "home" } }
